@@ -2,8 +2,7 @@ package Database;
 import java.sql.Connection;
 import java.sql.DriverManager;
 public class DBConnection {
-    public Connection connect( String DB_NAME, String
-            DB_USER, String DB_PASSWORD ) {
+    public Connection connect( String DB_NAME, String DB_USER, String DB_PASSWORD ) {
         Connection conn = null;
         try {
             Class.forName( "org.postgresql.Driver" );
