@@ -2,9 +2,9 @@ package SnakeLogic;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Graphics;
 import java.awt.Font;
 import java.awt.FontMetrics;
+import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -17,15 +17,16 @@ import javax.swing.Timer;
 public class Map extends JPanel implements ActionListener {
 
 //  MAP PARAMETERS, THESE VARIABLES CAN BE EDITED THROUGH THE ADMIN PANEL
-    private int MAP_WIDTH = 500;
-    private int MAP_HEIGHT = 500;
-    private int BLOCK_SIZE = 10;
-    private int ALL_BLOCKS = 900;
-    private int DELAY = 140;
+    private final int MAP_WIDTH = 500;
+    private final int MAP_HEIGHT = 500;
+    private final int DOT_SIZE = 10;
+    private final int ALL_DOTS = 900;
+    private final int RAND_POS = 29;
+    private final int DELAY = 140;
 
-    //  ALL COORDINATES OF EACH PART OF THE SNAKE
-    private final int x[] = new int[ALL_BLOCKS];
-    private final int y[] = new int[ALL_BLOCKS];
+//  ALL COORDINATES OF EACH PART OF THE SNAKE
+    private final int x[] = new int[ALL_DOTS];
+    private final int y[] = new int[ALL_DOTS];
 
     private int dots;
     private int apple_x;
@@ -65,14 +66,14 @@ public class Map extends JPanel implements ActionListener {
 
 //  GETTING ALL THE IMAGES FROM PACKAGE
     private void loadImages() {
-        ImageIcon body = new ImageIcon( "src/Images/body.png" );
-        ball = body.getImage();
+        ImageIcon iid = new ImageIcon( "src/Images/body.png" );
+        ball = iid.getImage();
 
-        ImageIcon alma = new ImageIcon( "src/Images/apple.png" );
-        apple = alma.getImage();
+        ImageIcon iia = new ImageIcon( "src/Images/apple.png" );
+        apple = iia.getImage();
 
-        ImageIcon bas = new ImageIcon( "src/Images/head.png" );
-        head = bas.getImage();
+        ImageIcon iih = new ImageIcon( "src/Images/head.png" );
+        head = iih.getImage();
     }
 
 
@@ -120,13 +121,7 @@ public class Map extends JPanel implements ActionListener {
 
 //  THIS FUNCTION IS CALLED WHEN THE SNAKE COLLIDES WITH ITSELF OR WITH A WALL
     private void gameOver( Graphics g ) {
-        String msg = "Game Over";
-        Font small = new Font("Helvetica", Font.BOLD, 14);
-        FontMetrics metr = getFontMetrics(small);
-
-        g.setColor(Color.white);
-        g.setFont(small);
-        g.drawString(msg, ( MAP_WIDTH - metr.stringWidth(msg)) / 2, MAP_HEIGHT / 2 );
+        System.out.println( "U lost!" );
     }
 
 //  THE LOGIC OF COLLIDING WITH APPLES
@@ -147,33 +142,25 @@ public class Map extends JPanel implements ActionListener {
         }
 
         if ( leftDirection ) {
-            x[0] -= BLOCK_SIZE;
+            x[0] -= DOT_SIZE;
         }
 
         if ( rightDirection ) {
-            x[0] += BLOCK_SIZE;
+            x[0] += DOT_SIZE;
         }
 
         if ( upDirection ) {
-            y[0] -= BLOCK_SIZE;
+            y[0] -= DOT_SIZE;
         }
 
         if ( downDirection ) {
-            y[0] += BLOCK_SIZE;
+            y[0] += DOT_SIZE;
         }
     }
 
 
 //  PROCESSING OF ALL POSSIBLE OUTCOMES OF DEFEAT
     private void checkCollision() {
-        for ( int z = dots; z > 0; z-- ) {
-
-            if ((z > 4) && (x[0] == x[z]) && (y[0] == y[z])) {
-                inGame = false;
-                break;
-            }
-        }
-
         if ( y[0] >= MAP_HEIGHT ) {
             inGame = false;
         }
@@ -196,12 +183,8 @@ public class Map extends JPanel implements ActionListener {
     }
 
     private void locateApple() {
-        int RAND_POS = 30;
-        int r = ( int ) ( Math.random() * RAND_POS);
-        apple_x = ( ( r * BLOCK_SIZE ) );
-
-        r = ( int ) ( Math.random() * RAND_POS);
-        apple_y = ( ( r * BLOCK_SIZE ) );
+        apple_x = 10;
+        apple_y = 10;
     }
 
     @Override
@@ -244,26 +227,5 @@ public class Map extends JPanel implements ActionListener {
                 leftDirection = false;
             }
         }
-    }
-
-//  SETTERS TO MAIN PARAMETERS OF THE GAME
-    public void set_MAP_WIDTH( int MAP_WIDTH ) {
-        this.MAP_WIDTH = MAP_WIDTH;
-    }
-
-    public void set_MAP_HEIGHT( int MAP_HEIGHT ) {
-        this.MAP_HEIGHT = MAP_HEIGHT;
-    }
-
-    public void set_BLOCK_SIZE( int BLOCK_SIZE ) {
-        this.BLOCK_SIZE = BLOCK_SIZE;
-    }
-
-    public void set_ALL_BLOCKS( int ALL_BLOCKS ) {
-        this.ALL_BLOCKS = ALL_BLOCKS;
-    }
-
-    public void set_DELAY( int DELAY ) {
-        this.DELAY = DELAY;
     }
 }
