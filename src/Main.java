@@ -15,7 +15,7 @@ public class Main extends JFrame{
         setResizable( false );
         pack();
 
-        setTitle( "Snake" );
+        setTitle( "Snake Online Game" );
         setLocationRelativeTo( null );
         setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
     }
@@ -32,10 +32,7 @@ public class Main extends JFrame{
         do {
             int n = in.nextInt();
             switch (n) {
-                case 1 -> EventQueue.invokeLater(() -> {
-                    JFrame ex = new Main();
-                    ex.setVisible(true);
-                });
+                case 1 -> StartGame();
                 case 2 -> SignUp();
                 case 3 -> RatingShow();
                 case 4 -> Settings();
@@ -44,7 +41,27 @@ public class Main extends JFrame{
             }
         } while (true);
     }
+    private static void StartGame() {
+        Scanner in = new Scanner(System.in);
+        System.out.println("[1] --> Start Game as Guest");
+        System.out.println("[2] --> Sign Up to Account");
 
+        do {
+            int n = in.nextInt();
+            switch (n) {
+                case 1 -> StartGameAsGuest();
+                case 2 -> SignUp();
+                default -> System.out.println("invalid number");
+            }
+        } while (true);
+    }
+
+
+    private static void StartGameAsGuest(){ EventQueue.invokeLater(() -> {
+            JFrame ex = new Main();
+            ex.setVisible(true);
+        });
+        }
     private static void SignUp(){
         System.out.println("Sign Up to the game!");
     }
