@@ -3,14 +3,14 @@ import SnakeLogic.Map;
 import java.awt.EventQueue;
 import javax.swing.JFrame;
 
-import java.util.Scanner;
 public class Main extends JFrame{
     public Main() {
         snakeUI();
     }
 
     private void snakeUI() {
-        add( new Map() );
+        Map map = new Map();
+        add( map );
 
         setResizable( false );
         pack();
