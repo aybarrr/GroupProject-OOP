@@ -196,7 +196,7 @@ public class Map extends JPanel implements ActionListener {
     }
 
     private void locateApple() {
-        int RAND_POS = 29;
+        int RAND_POS = 30;
         int r = ( int ) ( Math.random() * RAND_POS);
         apple_x = ( ( r * BLOCK_SIZE ) );
 
