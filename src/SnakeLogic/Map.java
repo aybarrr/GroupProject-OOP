@@ -2,7 +2,8 @@ package SnakeLogic;
 
 import java.awt.Color;
 import java.awt.Dimension;
-
+import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -13,17 +14,16 @@ import java.awt.event.KeyEvent;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.Timer;
+
 public class Map extends JPanel implements ActionListener {
 
-//  MAP PARAMETERS, THESE VARIABLES CAN BE EDITED THROUGH THE ADMIN PANEL
-    private final int MAP_WIDTH = 500;
-    private final int MAP_HEIGHT = 500;
+    private final int B_WIDTH = 700;
+    private final int B_HEIGHT = 700;
     private final int DOT_SIZE = 10;
     private final int ALL_DOTS = 900;
     private final int RAND_POS = 29;
     private final int DELAY = 140;
 
-//  ALL COORDINATES OF EACH PART OF THE SNAKE
     private final int x[] = new int[ALL_DOTS];
     private final int y[] = new int[ALL_DOTS];
 
@@ -31,53 +31,47 @@ public class Map extends JPanel implements ActionListener {
     private int apple_x;
     private int apple_y;
 
-
-//  VARIABLES FOR DETERMINING THE DIRECTION OF THE SNAKE
     private boolean leftDirection = false;
     private boolean rightDirection = true;
     private boolean upDirection = false;
     private boolean downDirection = false;
-
     private boolean inGame = true;
 
-//  THE MAIN OBJECTS OF THE GAME
     private Timer timer;
     private Image ball;
     private Image apple;
     private Image head;
 
-
-//  CONSTRUCTOR
     public Map() {
+
         initBoard();
     }
 
-//  MAP RENDERING AND IMPLEMENTATION OF ALL ITS PARAMETERS
     private void initBoard() {
+
         addKeyListener( new TAdapter() );
-        setBackground( Color.WHITE );
+        setBackground( Color.black );
         setFocusable( true );
 
-        setPreferredSize( new Dimension( MAP_WIDTH, MAP_HEIGHT ) );
+        setPreferredSize( new Dimension( B_WIDTH, B_HEIGHT ) );
         loadImages();
         initGame();
     }
 
-//  GETTING ALL THE IMAGES FROM PACKAGE
     private void loadImages() {
-        ImageIcon iid = new ImageIcon( "src/Images/body.png" );
+
+        ImageIcon iid = new ImageIcon("src/Images/body.png");
         ball = iid.getImage();
 
-        ImageIcon iia = new ImageIcon( "src/Images/apple.png" );
+        ImageIcon iia = new ImageIcon("src/Images/apple.png");
         apple = iia.getImage();
 
-        ImageIcon iih = new ImageIcon( "src/Images/head.png" );
+        ImageIcon iih = new ImageIcon("src/Images/head.png");
         head = iih.getImage();
     }
 
-
-//  THE MAIN LOGIC OF THE SNAKE MOVEMENT
     private void initGame() {
+
         dots = 3;
 
         for ( int z = 0; z < dots; z++ ) {
@@ -97,98 +91,117 @@ public class Map extends JPanel implements ActionListener {
 
         doDrawing(g);
     }
-//  RENDER SNAKE DOT BY DOT AND RENDER APPLE
+
     private void doDrawing( Graphics g ) {
-        if ( inGame ) {
 
-            g.drawImage( apple, apple_x, apple_y, this );
+        if (inGame) {
 
-            for ( int z = 0; z < dots; z++ ) {
-                if ( z == 0 ) {
-                    g.drawImage( head, x[z], y[z], this );
+            g.drawImage(apple, apple_x, apple_y, this);
+
+            for (int z = 0; z < dots; z++) {
+                if (z == 0) {
+                    g.drawImage(head, x[z], y[z], this);
                 } else {
-                    g.drawImage( ball, x[z], y[z], this );
+                    g.drawImage(ball, x[z], y[z], this);
                 }
             }
 
             Toolkit.getDefaultToolkit().sync();
 
         } else {
-            gameOver( g );
+
+            gameOver(g);
         }
     }
 
-//  THIS FUNCTION IS CALLED WHEN THE SNAKE COLLIDES WITH ITSELF OR WITH A WALL
-    private void gameOver( Graphics g ) {
-        System.out.println( "U lost!" );
+    private void gameOver(Graphics g) {
+
+        String msg = "Game Over.";
+        Font small = new Font("Helvetica", Font.BOLD, 14);
+        FontMetrics metr = getFontMetrics(small);
+
+        g.setColor(Color.white);
+        g.setFont(small);
+        g.drawString(msg, (B_WIDTH - metr.stringWidth(msg)) / 2, B_HEIGHT / 2);
     }
 
-//  THE LOGIC OF COLLIDING WITH APPLES
     private void checkApple() {
-        if ( ( x[0] == apple_x ) && ( y[0] == apple_y ) ) {
+
+        if ((x[0] == apple_x) && (y[0] == apple_y)) {
+
             dots++;
             locateApple();
         }
     }
 
-
-//  MAIN MOVEMENT LOGIC
     private void move() {
 
-        for ( int z = dots; z > 0; z-- ) {
+        for (int z = dots; z > 0; z--) {
             x[z] = x[(z - 1)];
             y[z] = y[(z - 1)];
         }
 
-        if ( leftDirection ) {
+        if (leftDirection) {
             x[0] -= DOT_SIZE;
         }
 
-        if ( rightDirection ) {
+        if (rightDirection) {
             x[0] += DOT_SIZE;
         }
 
-        if ( upDirection ) {
+        if (upDirection) {
             y[0] -= DOT_SIZE;
         }
 
-        if ( downDirection ) {
+        if (downDirection) {
             y[0] += DOT_SIZE;
         }
     }
 
-
-//  PROCESSING OF ALL POSSIBLE OUTCOMES OF DEFEAT
     private void checkCollision() {
-        if ( y[0] >= MAP_HEIGHT ) {
+
+        for (int z = dots; z > 0; z--) {
+
+            if ((z > 4) && (x[0] == x[z]) && (y[0] == y[z])) {
+                inGame = false;
+            }
+        }
+
+        if (y[0] >= B_HEIGHT) {
             inGame = false;
         }
 
-        if ( y[0] < 0 ) {
+        if (y[0] < 0) {
             inGame = false;
         }
 
-        if ( x[0] >= MAP_WIDTH ) {
+        if (x[0] >= B_WIDTH) {
             inGame = false;
         }
 
-        if ( x[0] < 0 ) {
+        if (x[0] < 0) {
             inGame = false;
         }
 
-        if ( !inGame ) {
+        if (!inGame) {
             timer.stop();
         }
     }
 
     private void locateApple() {
-        apple_x = 10;
-        apple_y = 10;
+
+        int r = (int) (Math.random() * RAND_POS);
+        apple_x = ((r * DOT_SIZE));
+
+        r = (int) (Math.random() * RAND_POS);
+        apple_y = ((r * DOT_SIZE));
     }
 
     @Override
-    public void actionPerformed( ActionEvent e ) {
-        if ( inGame ) {
+    public void actionPerformed(ActionEvent e) {
+
+        if (inGame) {
+
             checkApple();
             checkCollision();
             move();
@@ -198,29 +211,31 @@ public class Map extends JPanel implements ActionListener {
     }
 
     private class TAdapter extends KeyAdapter {
+
         @Override
-        public void keyPressed( KeyEvent e ) {
+        public void keyPressed(KeyEvent e) {
+
             int key = e.getKeyCode();
 
-            if ( ( key == KeyEvent.VK_LEFT ) && ( !rightDirection ) ) {
+            if ((key == KeyEvent.VK_LEFT) && (!rightDirection)) {
                 leftDirection = true;
                 upDirection = false;
                 downDirection = false;
             }
 
-            if ( ( key == KeyEvent.VK_RIGHT ) && ( !leftDirection ) ) {
+            if ((key == KeyEvent.VK_RIGHT) && (!leftDirection)) {
                 rightDirection = true;
                 upDirection = false;
                 downDirection = false;
             }
 
-            if ( ( key == KeyEvent.VK_UP ) && ( !downDirection ) ) {
+            if ((key == KeyEvent.VK_UP) && (!downDirection)) {
                 upDirection = true;
                 rightDirection = false;
                 leftDirection = false;
             }
 
-            if ( ( key == KeyEvent.VK_DOWN ) && (!upDirection ) ) {
+            if ((key == KeyEvent.VK_DOWN) && (!upDirection)) {
                 downDirection = true;
                 rightDirection = false;
                 leftDirection = false;
