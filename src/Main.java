@@ -31,7 +31,7 @@ public class Main extends JFrame {
 
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
         DBConnection db = new DBConnection();
-        Connection conn = db.getConnection( "quandyq", "postgres", "Mechta.01!" );
+        Connection conn = db.getConnection( "oop", "postgres", "Mechta.01!" );
         IUserRepo repo = new UserRepo( conn );
         UserController controller = new UserController(repo);
         Myapp app = new Myapp(controller);

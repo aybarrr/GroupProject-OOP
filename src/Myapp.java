@@ -16,19 +16,17 @@ public class Myapp {
     }
 
     public void start() {
-
-        DBConnection db = new DBConnection();
-
-        Scanner in = new Scanner(System.in);
         System.out.println("Welcome to online SNAKE GAME!");
-        System.out.println("[1] --> Start Game");
-        System.out.println("[2] --> Sign Up");
-        System.out.println("[3] --> Rating of Players");
-        System.out.println("[4] --> open Admin page");
-        System.out.println("[5] --> close app");
-        System.err.println("enter key number: ");
 
         do {
+            Scanner in = new Scanner(System.in);
+            System.out.println("[1] --> Start Game");
+            System.out.println("[2] --> Sign Up");
+            System.out.println("[3] --> Rating of Players");
+            System.out.println("[4] --> open Admin page");
+            System.out.println("[5] --> close app");
+            System.err.println("enter key number: ");
+
             int n = in.nextInt();
             switch (n) {
                 case 1 -> StartGame();

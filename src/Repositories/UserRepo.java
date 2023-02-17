@@ -17,7 +17,7 @@ public class UserRepo implements IUserRepo{
     @Override
     public boolean createUser(User user) {
         try {
-            String sql = String.format( "INSERT INTO Users(name,nickname) VALUES (%s,?%s)", user.getName(), user.getNickname() );
+            String sql = String.format( "INSERT INTO \"User\"(name,nickname) VALUES ('%s','%s')", user.getName(), user.getNickname() );
             Statement st = conn.createStatement();
             st.execute( sql );
             return true;

@@ -19,17 +19,12 @@ public class DBConnection implements IDB {
                 System.out.println( "Fail" );
             }
 
-            DatabaseMetaData dbm = conn.getMetaData();
-            ResultSet tables = dbm.getTables(null, null , "User", null);
             Statement st = conn.createStatement();
-
-            if( !tables.next() ) {
-                String sql = "CREATE TABLE \"User\" (id SERIAL PRIMARY KEY, name VARCHAR(255) NOT NULL, nickname VARCHAR(255) NOT NULL);";
-                st.execute(sql);
-                System.out.println("Table User created successfully");
-            } else {
-                System.out.println("Table User exists.");
-            }
+            String sql = """
+                    CREATE TABLE IF NOT EXISTS \"User\" (id SERIAL PRIMARY KEY, name VARCHAR(255) NOT NULL, nickname VARCHAR(255) NOT NULL);
+                    CREATE TABLE IF NOT EXISTS \"Rating\" (id SERIAL PRIMARY KEY, user_id INT NOT NULL, rating INT NOT NULL, FOREIGN KEY (user_id) REFERENCES "User"(id));
+                    """;
+            st.execute(sql);
 
         } catch (SQLException e) {
             System.out.println(e);
