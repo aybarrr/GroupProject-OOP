@@ -34,6 +34,32 @@ public class UserRepo implements IUserRepo{
     }
 
     @Override
+    public boolean SignIn(User user) {
+        int count = 0;
+        try {
+            String sql = String.format( "SELECT * FROM \"User\" WHERE name = '%s' AND nickname = '%s';", user.getName(), user.getNickname() );
+            Statement st = conn.createStatement();
+            ResultSet rs = st.executeQuery( sql );
+            while ( rs.next() ) {
+                count++;
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } finally {
+            try {
+                conn.close();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }
+        if( count > 0 ) {
+            return  true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
     public User getUser(int id) {
         try {
             String sql = "SELECT name,surname,nickname FROM Users WHERE id=?";

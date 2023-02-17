@@ -6,6 +6,7 @@ import java.util.List;
 
 public interface IUserRepo {
     boolean createUser(User user);
+    boolean SignIn(User user);
     User getUser(int id);
     List<User> getAllUsers();
 
