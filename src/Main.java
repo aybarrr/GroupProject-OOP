@@ -1,80 +1,38 @@
+import Controller.UserController;
+import Database.DBConnection;
+import Database.IDB;
+import Repositories.IUserRepo;
+import Repositories.UserRepo;
 import SnakeLogic.Map;
-
-import java.awt.EventQueue;
-import javax.swing.JFrame;
-
+import javax.swing.*;
+import java.awt.*;
 import java.util.Scanner;
-public class Main extends JFrame{
+import java.sql.Connection;
+import java.sql.Statement;
+public class Main extends JFrame {
+    private static UserController controller;
+    private Scanner scanner;
+
     public Main() {
         snakeUI();
     }
 
     private void snakeUI() {
-        add( new Map() );
+        add(new Map());
 
-        setResizable( false );
+        setResizable(false);
         pack();
 
-        setTitle( "Snake Online Game" );
-        setLocationRelativeTo( null );
-        setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-    }
-    public static void main( String[] args ) {
-        Scanner in = new Scanner(System.in);
-        System.out.println("Welcome to online SNAKE GAME!");
-        System.out.println("[1] --> Start Game");
-        System.out.println("[2] --> Sign Up");
-        System.out.println("[3] --> Rating of Players");
-        System.out.println("[4] --> open Admin page");
-        System.out.println("[5] --> close app");
-        System.err.println("enter key number: ");
-
-        do {
-            int n = in.nextInt();
-            switch (n) {
-                case 1 -> StartGame();
-                case 2 -> SignUp();
-                case 3 -> RatingShow();
-                case 4 -> Settings();
-                case 5 -> Exit();
-                default -> System.out.println("invalid number");
-            }
-        } while (true);
-    }
-    private static void StartGame() {
-        Scanner in = new Scanner(System.in);
-        System.out.println("[1] --> Start Game as Guest");
-        System.out.println("[2] --> Sign Up to Account");
-
-        do {
-            int n = in.nextInt();
-            switch (n) {
-                case 1 -> StartGameAsGuest();
-                case 2 -> SignUp();
-                default -> System.out.println("invalid number");
-            }
-        } while (true);
+        setTitle("Snake Online Game");
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
-
-    private static void StartGameAsGuest(){ EventQueue.invokeLater(() -> {
-            JFrame ex = new Main();
-            ex.setVisible(true);
-        });
-        }
-    private static void SignUp(){
-        System.out.println("Sign Up to the game!");
+    public static void main(String[] args) {
+        IDB db = new DBConnection();
+        IUserRepo repo = new UserRepo(db);
+        UserController controller = new UserController(repo);
+        Myapp app = new Myapp(controller);
+        app.start();
     }
-
-    private static void RatingShow(){
-        System.out.println("Showing Rating...");
-    }
-    private static void Settings(){
-        System.out.println("Settings...");
-    }
-    private static void Exit(){
-        System.out.println("Closing game...");
-    }
-
-
 }

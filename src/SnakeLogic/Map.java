@@ -1,5 +1,9 @@
 package SnakeLogic;
 
+import Controller.UserController;
+import Entities.User;
+import Repositories.IUserRepo;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -22,7 +26,7 @@ public class Map extends JPanel implements ActionListener {
     private final int DOT_SIZE = 10;
     private final int ALL_DOTS = 900;
     private final int RAND_POS = 29;
-    private final int DELAY = 140;
+    private int DELAY = 150;
 
     private final int x[] = new int[ALL_DOTS];
     private final int y[] = new int[ALL_DOTS];
@@ -81,8 +85,7 @@ public class Map extends JPanel implements ActionListener {
 
         locateApple();
 
-        timer = new Timer( DELAY, this );
-        timer.start();
+
     }
 
     @Override
@@ -116,7 +119,7 @@ public class Map extends JPanel implements ActionListener {
 
     private void gameOver(Graphics g) {
 
-        String msg = "Game Over.";
+        String msg = "Game Over. Your level: " + (DELAY -100);
         Font small = new Font("Helvetica", Font.BOLD, 14);
         FontMetrics metr = getFontMetrics(small);
 
@@ -127,10 +130,13 @@ public class Map extends JPanel implements ActionListener {
 
     private void checkApple() {
 
+
+
         if ((x[0] == apple_x) && (y[0] == apple_y)) {
 
             dots++;
             locateApple();
+
         }
     }
 
@@ -188,6 +194,7 @@ public class Map extends JPanel implements ActionListener {
         }
     }
 
+
     private void locateApple() {
 
         int r = (int) (Math.random() * RAND_POS);
@@ -195,6 +202,11 @@ public class Map extends JPanel implements ActionListener {
 
         r = (int) (Math.random() * RAND_POS);
         apple_y = ((r * DOT_SIZE));
+
+        DELAY = DELAY+1;
+        timer = new Timer( DELAY, this );
+        timer.start();
+
     }
 
     @Override
@@ -205,6 +217,8 @@ public class Map extends JPanel implements ActionListener {
             checkApple();
             checkCollision();
             move();
+
+
         }
 
         repaint();
@@ -241,5 +255,6 @@ public class Map extends JPanel implements ActionListener {
                 leftDirection = false;
             }
         }
+
     }
 }
