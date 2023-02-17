@@ -8,6 +8,10 @@ import java.util.List;
 public class UserController {
     private final IUserRepo repo;
 
+//    public void CreateUserTable() {
+//        repo.CreateUserTable();
+//    }
+
     public UserController(IUserRepo repo) {
         this.repo = repo;
     }

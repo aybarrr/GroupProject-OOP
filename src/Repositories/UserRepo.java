@@ -1,5 +1,6 @@
 package Repositories;
 
+import Database.DBConnection;
 import Database.IDB;
 import Entities.User;
 
@@ -8,17 +9,58 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class UserRepo implements IUserRepo{
-    private final IDB db;
+    private DBConnection db = new DBConnection();
 
-    public UserRepo(IDB db) {
+    public UserRepo(DBConnection db) {
         this.db = db;
     }
+
+//    @Override
+//    public boolean CreateUserTable() {
+//        Connection con = null;
+//        try {
+//            con = db.getConnection( "quandyq", "postgres", "Mechta.01!" );
+//            String sql = "-- Table: public.Users\n" +
+//                    "\n" +
+//                    "-- DROP TABLE IF EXISTS public.\"Users\";\n" +
+//                    "\n" +
+//                    "CREATE TABLE IF NOT EXISTS public.\"Users\"\n" +
+//                    "(\n" +
+//                    "    id integer NOT NULL DEFAULT 'nextval('\"Users_id_seq\"'::regclass)',\n" +
+//                    "    name character varying(50) COLLATE pg_catalog.\"default\",\n" +
+//                    "    surname character varying(50) COLLATE pg_catalog.\"default\",\n" +
+//                    "    nickname character varying(50) COLLATE pg_catalog.\"default\",\n" +
+//                    "    level integer NOT NULL,\n" +
+//                    "    CONSTRAINT \"Users_pkey\" PRIMARY KEY (id)\n" +
+//                    ")\n" +
+//                    "\n" +
+//                    "TABLESPACE pg_default;\n" +
+//                    "\n" +
+//                    "ALTER TABLE IF EXISTS public.\"Users\"\n" +
+//                    "    OWNER to postgres;";
+//
+//            PreparedStatement st = con.prepareStatement(sql);
+//            st.execute();
+//            return true;
+//        } catch (SQLException throwables) {
+//            throwables.printStackTrace();
+//        } catch (ClassNotFoundException e) {
+//            e.printStackTrace();
+//        } finally {
+//            try {
+//                con.close();
+//            } catch (SQLException throwables) {
+//                throwables.printStackTrace();
+//            }
+//        }
+//        return false;
+//    }
 
     @Override
     public boolean createUser(User user) {
         Connection con = null;
         try {
-            con = db.getConnection();
+            con = db.getConnection( "quandyq", "postgres", "Mechta.01!" );
             String sql = "INSERT INTO Users(name,surname,nickname) VALUES (?,?,?)";
             PreparedStatement st = con.prepareStatement(sql);
 
@@ -46,7 +88,7 @@ public class UserRepo implements IUserRepo{
     public User getUser(int id) {
         Connection con = null;
         try {
-            con = db.getConnection();
+            con = db.getConnection( "quandyq", "postgres", "Mechta.01!" );
             String sql = "SELECT name,surname,nickname FROM Users WHERE id=?";
             PreparedStatement st = con.prepareStatement(sql);
 
@@ -79,7 +121,7 @@ public class UserRepo implements IUserRepo{
     public List<User> getAllUsers() {
         Connection con = null;
         try {
-            con = db.getConnection();
+            con = db.getConnection( "quandyq", "postgres", "Mechta.01!" );
             String sql = "SELECT id,name,surname,gender FROM users";
             Statement st = con.createStatement();
 
@@ -112,7 +154,7 @@ public class UserRepo implements IUserRepo{
     public void setLvl(User user, int lvl){
         Connection con = null;
         try {
-            con = db.getConnection();
+            con = db.getConnection( "quandyq", "postgres", "Mechta.01!" );
             String sql = "INSERT INTO Users(level) VALUES (?)";
             PreparedStatement st = con.prepareStatement(sql);
 

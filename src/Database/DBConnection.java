@@ -3,39 +3,18 @@ import java.sql.*;
 
 public class DBConnection implements IDB {
     @Override
-    public Connection getConnection() throws SQLException, ClassNotFoundException {
-        String connectionUrl = "jdbc:postgresql://localhost:5432/simpledb";
+    public Connection getConnection( String DB_NAME, String DB_USER, String DB_PASSWORD ) throws SQLException, ClassNotFoundException {
         try {
             // Here we load the driver’s class file into memory at the runtime
             Class.forName("org.postgresql.Driver");
 
             // Establish the connection
-            Connection con = DriverManager.getConnection(connectionUrl, "postgres", "Babahan2004");
-
+            Connection con = DriverManager.getConnection("jdbc:postgresql://localhost:5432/" + DB_NAME, DB_USER, DB_PASSWORD);
+            System.out.println( "Successfully connected to db" );
             return con;
         } catch (Exception e) {
             System.out.println(e);
             return null;
         }
     }
-
-    public void search_by_name(Connection conn, String table_name,String name){
-        Statement statement;
-        ResultSet rs=null;
-        try {
-            String query=String.format("select * from %s where name= '%s'",table_name,name);
-            statement=conn.createStatement();
-            rs=statement.executeQuery(query);
-            while (rs.next()){
-                System.out.print(rs.getString("id")+" ");
-                System.out.print(rs.getString("name")+" ");
-                System.out.print(rs.getString("surname")+" ");
-                System.out.print(rs.getString("nickname")+" ");
-                System.out.println(rs.getString("level"));
-            }
-        }catch (Exception e){
-            System.out.println(e);
-        }
-    }
-
 }

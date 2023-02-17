@@ -4,10 +4,11 @@ import Database.IDB;
 import Repositories.IUserRepo;
 import Repositories.UserRepo;
 import SnakeLogic.Map;
+import com.sun.jdi.connect.spi.Connection;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.Scanner;
-import java.sql.Connection;
 import java.sql.Statement;
 public class Main extends JFrame {
     private static UserController controller;
@@ -29,7 +30,7 @@ public class Main extends JFrame {
     }
 
     public static void main(String[] args) {
-        IDB db = new DBConnection();
+        DBConnection db = new DBConnection();
         IUserRepo repo = new UserRepo(db);
         UserController controller = new UserController(repo);
         Myapp app = new Myapp(controller);

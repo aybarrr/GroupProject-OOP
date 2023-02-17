@@ -41,6 +41,8 @@ public class Myapp {
         } while (true);
     }
     private static void StartGame() {
+//        controller.CreateUserTable();
+
         Scanner in = new Scanner(System.in);
         System.out.println("[1] --> Start Game as Guest");
         System.out.println("[2] --> Sign Up to Account");
