@@ -41,8 +41,6 @@ public class Myapp {
         } while (true);
     }
     private static void StartGame() {
-//        controller.CreateUserTable();
-
         Scanner in = new Scanner(System.in);
         System.out.println("[1] --> Start Game as Guest");
         System.out.println("[2] --> Sign Up to Account");
@@ -67,12 +65,10 @@ public class Myapp {
         Scanner in = new Scanner(System.in);
         System.out.println("Input your name: ");
         String name = in.nextLine();
-        System.out.println("Input your surname: ");
-        String surname = in.nextLine();
         System.out.println("Input nickname: ");
         String nickname = in.nextLine();
 
-        String response = controller.createUser(name, surname, nickname);
+        String response = controller.createUser(name, nickname);
         System.out.println(response);
 
 

@@ -4,11 +4,11 @@ import Database.IDB;
 import Repositories.IUserRepo;
 import Repositories.UserRepo;
 import SnakeLogic.Map;
-import com.sun.jdi.connect.spi.Connection;
-
 import javax.swing.*;
 import java.awt.*;
+import java.sql.SQLException;
 import java.util.Scanner;
+import java.sql.Connection;
 import java.sql.Statement;
 public class Main extends JFrame {
     private static UserController controller;
@@ -29,9 +29,10 @@ public class Main extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException, ClassNotFoundException {
         DBConnection db = new DBConnection();
-        IUserRepo repo = new UserRepo(db);
+        Connection conn = db.getConnection( "quandyq", "postgres", "Mechta.01!" );
+        IUserRepo repo = new UserRepo( conn );
         UserController controller = new UserController(repo);
         Myapp app = new Myapp(controller);
         app.start();

@@ -8,17 +8,13 @@ import java.util.List;
 public class UserController {
     private final IUserRepo repo;
 
-//    public void CreateUserTable() {
-//        repo.CreateUserTable();
-//    }
-
     public UserController(IUserRepo repo) {
         this.repo = repo;
     }
 
-    public String createUser(String name, String surname, String nickname) {
+    public String createUser(String name, String nickname) {
 
-        User user = new User(name, surname, nickname);
+        User user = new User(name, nickname);
 
         boolean created = repo.createUser(user);
 
