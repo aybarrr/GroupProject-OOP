@@ -16,19 +16,17 @@ public class Myapp {
     }
 
     public void start() {
-
-        DBConnection db = new DBConnection();
-
-        Scanner in = new Scanner(System.in);
         System.out.println("Welcome to online SNAKE GAME!");
-        System.out.println("[1] --> Start Game");
-        System.out.println("[2] --> Sign Up");
-        System.out.println("[3] --> Rating of Players");
-        System.out.println("[4] --> open Admin page");
-        System.out.println("[5] --> close app");
-        System.err.println("enter key number: ");
 
         do {
+            Scanner in = new Scanner(System.in);
+            System.out.println("[1] --> Start Game");
+            System.out.println("[2] --> Sign Up");
+            System.out.println("[3] --> Rating of Players");
+            System.out.println("[4] --> open Admin page");
+            System.out.println("[5] --> close app");
+            System.err.println("enter key number: ");
+
             int n = in.nextInt();
             switch (n) {
                 case 1 -> StartGame();
@@ -43,13 +41,13 @@ public class Myapp {
     private static void StartGame() {
         Scanner in = new Scanner(System.in);
         System.out.println("[1] --> Start Game as Guest");
-        System.out.println("[2] --> Sign Up to Account");
+        System.out.println("[2] --> Sign In to Account");
 
         do {
             int n = in.nextInt();
             switch (n) {
                 case 1 -> StartGameAsGuest();
-                case 2 -> SignUp();
+                case 2 -> SignIn();
                 default -> System.out.println("invalid number");
             }
         } while (true);
@@ -65,15 +63,22 @@ public class Myapp {
         Scanner in = new Scanner(System.in);
         System.out.println("Input your name: ");
         String name = in.nextLine();
-        System.out.println("Input your surname: ");
-        String surname = in.nextLine();
         System.out.println("Input nickname: ");
         String nickname = in.nextLine();
 
-        String response = controller.createUser(name, surname, nickname);
+        String response = controller.createUser(name, nickname);
         System.out.println(response);
+    }
 
+    private static void SignIn(){
+        Scanner in = new Scanner(System.in);
+        System.out.println("Input your name: ");
+        String name = in.nextLine();
+        System.out.println("Input nickname: ");
+        String nickname = in.nextLine();
 
+        String response = controller.SingIn(name, nickname);
+        System.out.println(response);
     }
 
     private static void RatingShow(){

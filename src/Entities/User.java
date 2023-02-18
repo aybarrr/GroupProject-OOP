@@ -6,13 +6,11 @@ import java.sql.Statement;
 public class User {
     private int id;
     private String name;
-    private String surname;
     private String nickname;
     private int level;
 
-    public User(String name, String surname, String nickname){
+    public User(String name, String nickname){
         setName(name);
-        setSurname(surname);
         setNickname(nickname);
     }
 
@@ -27,10 +25,6 @@ public class User {
         return name;
     }
 
-    public String getSurname() {
-        return surname;
-    }
-
     public String getNickname() {
         return nickname;
     }
@@ -43,10 +37,6 @@ public class User {
         this.name = name;
     }
 
-    public void setSurname(String surname) {
-        this.surname = surname;
-    }
-
     public void setNickname(String nickname) {
         this.nickname = nickname;
     }
@@ -55,6 +45,4 @@ public class User {
         this.level = level;
     }
 //    methods
-
-
 }

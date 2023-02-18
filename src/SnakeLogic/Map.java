@@ -26,6 +26,8 @@ public class Map extends JPanel implements ActionListener {
     private final int DOT_SIZE = 10;
     private final int ALL_DOTS = 900;
     private final int RAND_POS = 29;
+
+    private User user;
     private int DELAY = 150;
 
     private final int x[] = new int[ALL_DOTS];
@@ -46,8 +48,7 @@ public class Map extends JPanel implements ActionListener {
     private Image apple;
     private Image head;
 
-    public Map() {
-
+    public Map( ) {
         initBoard();
     }
 
@@ -119,7 +120,7 @@ public class Map extends JPanel implements ActionListener {
 
     private void gameOver(Graphics g) {
 
-        String msg = "Game Over. Your level: " + (DELAY -100);
+        String msg = "Game Over. Your level: " + (DELAY-100);
         Font small = new Font("Helvetica", Font.BOLD, 14);
         FontMetrics metr = getFontMetrics(small);
 
@@ -129,11 +130,7 @@ public class Map extends JPanel implements ActionListener {
     }
 
     private void checkApple() {
-
-
-
         if ((x[0] == apple_x) && (y[0] == apple_y)) {
-
             dots++;
             locateApple();
 
@@ -256,5 +253,12 @@ public class Map extends JPanel implements ActionListener {
             }
         }
 
+    }
+
+    public void setUser( User user ) {
+        this.user = user;
+    }
+    public int getLVL() {
+        return DELAY - 100;
     }
 }

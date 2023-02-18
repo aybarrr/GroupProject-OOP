@@ -6,6 +6,7 @@ import Repositories.UserRepo;
 import SnakeLogic.Map;
 import javax.swing.*;
 import java.awt.*;
+import java.sql.SQLException;
 import java.util.Scanner;
 import java.sql.Connection;
 import java.sql.Statement;
@@ -28,9 +29,10 @@ public class Main extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
-    public static void main(String[] args) {
-        IDB db = new DBConnection();
-        IUserRepo repo = new UserRepo(db);
+    public static void main(String[] args) throws SQLException, ClassNotFoundException {
+        DBConnection db = new DBConnection();
+        Connection conn = db.getConnection( "oop", "postgres", "Mechta.01!" );
+        IUserRepo repo = new UserRepo( conn );
         UserController controller = new UserController(repo);
         Myapp app = new Myapp(controller);
         app.start();

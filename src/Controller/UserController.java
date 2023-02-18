@@ -12,13 +12,20 @@ public class UserController {
         this.repo = repo;
     }
 
-    public String createUser(String name, String surname, String nickname) {
-
-        User user = new User(name, surname, nickname);
+    public String createUser(String name, String nickname) {
+        User user = new User(name, nickname);
 
         boolean created = repo.createUser(user);
 
         return (created ? "User was created!" : "User creation was failed!");
+
+    }
+
+    public String SingIn(String name, String nickname) {
+        User user = new User(name, nickname);
+
+        boolean signin = repo.SignIn(user);
+        return (signin ? "User was Signed in!" : "User Sign in process was failed!");
     }
 
     public String getUser(int id) {
