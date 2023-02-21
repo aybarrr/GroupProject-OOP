@@ -1,7 +1,7 @@
 package Controller;
 
 import Entities.User;
-import Repositories.IUserRepo;
+import Repositories.Interfaces.IUserRepo;
 
 import java.util.List;
 

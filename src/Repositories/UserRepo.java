@@ -1,13 +1,13 @@
 package Repositories;
 
-import Database.IDB;
 import Entities.User;
+import Repositories.Interfaces.IUserRepo;
 
 import java.sql.*;
 import java.util.LinkedList;
 import java.util.List;
 
-public class UserRepo implements IUserRepo{
+public class UserRepo implements IUserRepo {
     private final Connection conn;
 
     public UserRepo( Connection conn ) {
@@ -21,13 +21,13 @@ public class UserRepo implements IUserRepo{
             Statement st = conn.createStatement();
             st.execute( sql );
             return true;
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException throwable) {
+            throwable.printStackTrace();
         } finally {
             try {
                 conn.close();
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
+            } catch (SQLException throwable) {
+                throwable.printStackTrace();
             }
         }
         return false;
@@ -115,7 +115,7 @@ public class UserRepo implements IUserRepo{
         }
         return null;
     }
-    @Override
+
     public void setLvl(User user, int lvl){
         try {
             String sql = "INSERT INTO Users(level) VALUES (?)";

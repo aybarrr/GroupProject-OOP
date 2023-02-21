@@ -1,8 +1,6 @@
 package SnakeLogic;
 
-import Controller.UserController;
 import Entities.User;
-import Repositories.IUserRepo;
 
 import java.awt.Color;
 import java.awt.Dimension;
