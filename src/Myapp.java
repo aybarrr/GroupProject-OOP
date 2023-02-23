@@ -1,3 +1,4 @@
+import Controller.AdminController;
 import Controller.UserController;
 import Database.DBConnection;
 
@@ -7,11 +8,13 @@ import java.util.Scanner;
 
 public class Myapp {
     private static UserController controller = null;
+    private static AdminController controllerAdmin = null;
     private final Scanner scanner;
 
 
-    public Myapp(UserController controller) {
+    public Myapp(UserController controller, AdminController controllerAdmin) {
         this.controller = controller;
+        this.controllerAdmin = controllerAdmin;
         scanner = new Scanner(System.in);
     }
 
@@ -91,7 +94,15 @@ public class Myapp {
         System.out.println("Showing Rating...");
     }
     private static void Settings(){
-        System.out.println("Settings...");
+        Scanner in = new Scanner(System.in);
+        System.out.println("Input your name: ");
+        String name = in.nextLine();
+        System.out.println("Input password: ");
+        String password = in.nextLine();
+
+        String response = controllerAdmin.SignIn(name, password);
+        System.out.println(response);
+
     }
     private static void Exit(){
         System.out.println("Closing game...");
