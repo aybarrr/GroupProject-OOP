@@ -54,6 +54,7 @@ public class Myapp {
     }
 
 
+
     private static void StartGameAsGuest(){ EventQueue.invokeLater(() -> {
         JFrame ex = new Main();
         ex.setVisible(true);
@@ -83,6 +84,7 @@ public class Myapp {
 
         String response = controller.SingIn(name, nickname, password);
         System.out.println(response);
+
     }
 
     private static void RatingShow(){

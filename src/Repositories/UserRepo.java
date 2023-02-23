@@ -23,12 +23,6 @@ public class UserRepo implements IUserRepo {
             return true;
         } catch (SQLException throwable) {
             throwable.printStackTrace();
-        } finally {
-            try {
-                conn.close();
-            } catch (SQLException throwable) {
-                throwable.printStackTrace();
-            }
         }
         return false;
     }
