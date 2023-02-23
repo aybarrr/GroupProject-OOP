@@ -12,8 +12,8 @@ public class UserController {
         this.repo = repo;
     }
 
-    public String createUser(String name, String nickname) {
-        User user = new User(name, nickname);
+    public String createUser(String name, String nickname, String password) {
+        User user = new User(name, nickname, password);
 
         boolean created = repo.createUser(user);
 
@@ -21,8 +21,8 @@ public class UserController {
 
     }
 
-    public String SingIn(String name, String nickname) {
-        User user = new User(name, nickname);
+    public String SingIn(String name, String nickname, String password) {
+        User user = new User(name, nickname, password);
 
         boolean signin = repo.SignIn(user);
         return (signin ? "User was Signed in!" : "User Sign in process was failed!");

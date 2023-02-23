@@ -65,8 +65,10 @@ public class Myapp {
         String name = in.nextLine();
         System.out.println("Input nickname: ");
         String nickname = in.nextLine();
+        System.out.println("Input password: ");
+        String password = in.nextLine();
 
-        String response = controller.createUser(name, nickname);
+        String response = controller.createUser(name, nickname, password);
         System.out.println(response);
     }
 
@@ -76,8 +78,10 @@ public class Myapp {
         String name = in.nextLine();
         System.out.println("Input nickname: ");
         String nickname = in.nextLine();
+        System.out.println("Input your password: ");
+        String password = in.nextLine();
 
-        String response = controller.SingIn(name, nickname);
+        String response = controller.SingIn(name, nickname, password);
         System.out.println(response);
     }
 

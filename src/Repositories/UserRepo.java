@@ -17,7 +17,7 @@ public class UserRepo implements IUserRepo {
     @Override
     public boolean createUser(User user) {
         try {
-            String sql = String.format( "INSERT INTO \"User\"(name,nickname) VALUES ('%s','%s')", user.getName(), user.getNickname() );
+            String sql = String.format( "INSERT INTO \"User\"(name,nickname,password) VALUES ('%s','%s','%s')", user.getName(), user.getNickname(), user.getPassword() );
             Statement st = conn.createStatement();
             st.execute( sql );
             return true;
@@ -37,7 +37,7 @@ public class UserRepo implements IUserRepo {
     public boolean SignIn(User user) {
         int count = 0;
         try {
-            String sql = String.format( "SELECT * FROM \"User\" WHERE name = '%s' AND nickname = '%s';", user.getName(), user.getNickname() );
+            String sql = String.format( "SELECT * FROM \"User\" WHERE name = '%s' AND nickname = '%s' AND password = '%s' ;", user.getName(), user.getNickname(), user.getPassword() );
             Statement st = conn.createStatement();
             ResultSet rs = st.executeQuery( sql );
             while ( rs.next() ) {
@@ -62,7 +62,7 @@ public class UserRepo implements IUserRepo {
     @Override
     public User getUser(int id) {
         try {
-            String sql = "SELECT name,surname,nickname FROM Users WHERE id=?";
+            String sql = "SELECT name,nickname,password FROM Users WHERE id=?";
             PreparedStatement st = conn.prepareStatement(sql);
 
             st.setInt(1, id);
@@ -71,17 +71,18 @@ public class UserRepo implements IUserRepo {
             if (rs.next()) {
                 User user = new User(
                         rs.getString("name"),
-                        rs.getString("nickname"));
+                        rs.getString("nickname"),
+                        rs.getString("password"));
 
                 return user;
             }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException throwable) {
+            throwable.printStackTrace();
         } finally {
             try {
                 conn.close();
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
+            } catch (SQLException throwable) {
+                throwable.printStackTrace();
             }
         }
         return null;
@@ -90,7 +91,7 @@ public class UserRepo implements IUserRepo {
     @Override
     public List<User> getAllUsers() {
         try {
-            String sql = "SELECT id,name,surname,gender FROM users";
+            String sql = "SELECT id,name,nickname FROM users";
             Statement st = conn.createStatement();
 
             ResultSet rs = st.executeQuery(sql);
