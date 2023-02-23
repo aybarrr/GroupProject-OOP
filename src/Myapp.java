@@ -54,10 +54,11 @@ public class Myapp {
     }
 
 
-    private static void StartGameAsGuest(){ EventQueue.invokeLater(() -> {
-        JFrame ex = new Main();
-        ex.setVisible(true);
-    });
+    private static void StartGameAsGuest(){
+        EventQueue.invokeLater(() -> {
+            JFrame ex = new Main( "Guest" );
+            ex.setVisible(true);
+        });
     }
     private static void SignUp(){
         Scanner in = new Scanner(System.in);
@@ -77,8 +78,16 @@ public class Myapp {
         System.out.println("Input nickname: ");
         String nickname = in.nextLine();
 
-        String response = controller.SingIn(name, nickname);
-        System.out.println(response);
+        boolean response = controller.SingIn(name, nickname);
+        if( response ) {
+            System.out.println( "Starting as: " + nickname );
+            EventQueue.invokeLater(() -> {
+                JFrame ex = new Main( nickname );
+                ex.setVisible(true);
+            });
+        } else {
+            System.out.println( "No such user" );
+        }
     }
 
     private static void RatingShow(){

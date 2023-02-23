@@ -21,11 +21,11 @@ public class UserController {
 
     }
 
-    public String SingIn(String name, String nickname) {
+    public boolean SingIn(String name, String nickname) {
         User user = new User(name, nickname);
 
         boolean signin = repo.SignIn(user);
-        return (signin ? "User was Signed in!" : "User Sign in process was failed!");
+        return signin;
     }
 
     public String getUser(int id) {

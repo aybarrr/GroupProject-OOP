@@ -1,6 +1,5 @@
 package Repositories;
 
-import Database.IDB;
 import Entities.User;
 
 import java.sql.*;
