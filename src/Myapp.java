@@ -57,11 +57,14 @@ public class Myapp {
     }
 
 
-    private static void StartGameAsGuest(){ EventQueue.invokeLater(() -> {
-        JFrame ex = new Main();
-        ex.setVisible(true);
-    });
+    private static void StartGameAsGuest(){
+        EventQueue.invokeLater(() -> {
+            JFrame ex = new Main( "Guest" );
+            ex.setVisible(true);
+        });
     }
+
+
     private static void SignUp(){
         Scanner in = new Scanner(System.in);
         System.out.println("Input your name: ");
@@ -75,7 +78,7 @@ public class Myapp {
         System.out.println(response);
     }
 
-    private static void SignIn(){
+    private static void SignIn() {
         Scanner in = new Scanner(System.in);
         System.out.println("Input your name: ");
         String name = in.nextLine();
@@ -86,46 +89,57 @@ public class Myapp {
 
         String response = controller.SingIn(name, nickname, password);
         System.out.println(response);
-    }
-
-    private static void RatingShow(){
-        System.out.println("Showing Rating...");
-    }
-    private static void Settings(){
-        Scanner in = new Scanner(System.in);
-        System.out.println("Input your name: ");
-        String name = in.nextLine();
-        System.out.println("Input password: ");
-        String password = in.nextLine();
-
-        String response = controllerAdmin.SignIn(name, password);
-        System.out.println(response);
-        String pos = "Admin was Signed in!";
-        if(response.equals(pos)){
-            System.out.println("Welcome to Settings");
-
-            do {
-
-                System.out.println("[1] --> First Setting");
-                System.out.println("[2] --> Second setting");
-                System.out.println("[3] --> Exit");
-                System.err.println("enter key number: ");
-
-                int n = in.nextInt();
-                switch (n) {
-                    case 1 -> System.out.println("First setting is selected");
-                    case 2 -> System.out.println("Second selected");
-
-                    case 3 -> Exit();
-                    default -> System.out.println("invalid number");
-                }
-            } while (true);
+        String signedIn = "User was Signed in!";
+        if (response.equals((signedIn))) {
+            System.out.println("Starting as: " + nickname);
+            EventQueue.invokeLater(() -> {
+                JFrame ex = new Main(nickname);
+                ex.setVisible(true);
+            });
+        } else {
+            System.out.println("No such user");
         }
+    }
 
-    }
-    private static void Exit(){
-        System.out.println("Closing game...");
-    }
+        private static void RatingShow () {
+            System.out.println("Showing Rating...");
+        }
+        private static void Settings () {
+            Scanner inSet = new Scanner(System.in);
+            System.out.println("Input your name: ");
+            String nameAdmin = inSet.nextLine();
+            System.out.println("Input password: ");
+            String passwordAdmin = inSet.nextLine();
+
+            String responseAdmin = controllerAdmin.SignIn(nameAdmin, passwordAdmin);
+            System.out.println(responseAdmin);
+            String pos = "Admin was Signed in!";
+            inSet.close();
+            if (responseAdmin.equals(pos)) {
+                System.out.println("Welcome to Settings");
+
+                do {
+                    Scanner in = new Scanner(System.in);
+                    System.out.println("[1] --> First Setting");
+                    System.out.println("[2] --> Second setting");
+                    System.out.println("[3] --> Exit");
+                    System.err.println("enter key number: ");
+
+                    int n = in.nextInt();
+                    switch (n) {
+                        case 1 -> System.out.println("First setting is selected");
+                        case 2 -> System.out.println("Second selected");
+
+                        case 3 -> Exit();
+                        default -> System.out.println("invalid number");
+                    }
+                } while (true);
+            }
+
+        }
+        private static void Exit () {
+            System.out.println("Closing game...");
+        }
 
 
 }

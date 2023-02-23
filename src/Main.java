@@ -15,16 +15,15 @@ public class Main extends JFrame {
     private static UserController controller;
     private Scanner scanner;
 
-    public Main() {
-        snakeUI();
+    public Main( String player ) {
+        snakeUI( player );
     }
 
-    private void snakeUI() {
-        add(new Map());
+    private void snakeUI( String player ) {
+        add(new Map( player ));
 
         setResizable(false);
         pack();
-
 
         setTitle("Snake Online Game");
         setLocationRelativeTo(null);

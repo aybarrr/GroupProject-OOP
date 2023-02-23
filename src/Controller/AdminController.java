@@ -15,6 +15,5 @@ public class AdminController {
 
         boolean signin = repo.SignIn(name, password);
         return (signin ? "Admin was Signed in!" : "Admin Sign in process was failed!");
-
     }
 }

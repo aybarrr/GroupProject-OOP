@@ -1,6 +1,10 @@
 package SnakeLogic;
 
+
+
+import Controller.UserController;
 import Entities.User;
+import Repositories.Interfaces.IUserRepo;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -22,11 +26,10 @@ public class Map extends JPanel implements ActionListener {
     private final int B_WIDTH = 700;
     private final int B_HEIGHT = 700;
     private final int DOT_SIZE = 10;
-    private final int ALL_DOTS = 900;
-    private final int RAND_POS = 29;
-
-    private User user;
+    private final int ALL_DOTS = 2700;
+    private final int RAND_POS = 30;
     private int DELAY = 150;
+    private String player;
 
     private final int x[] = new int[ALL_DOTS];
     private final int y[] = new int[ALL_DOTS];
@@ -45,13 +48,14 @@ public class Map extends JPanel implements ActionListener {
     private Image ball;
     private Image apple;
     private Image head;
+    private Image background;
 
-    public Map( ) {
+    public Map( String player ) {
+        setPlayer( player );
         initBoard();
     }
 
     private void initBoard() {
-
         addKeyListener( new TAdapter() );
         setBackground( Color.black );
         setFocusable( true );
@@ -71,34 +75,37 @@ public class Map extends JPanel implements ActionListener {
 
         ImageIcon iih = new ImageIcon("src/Images/head.png");
         head = iih.getImage();
+
+        ImageIcon iib = new ImageIcon("src/Images/background.png");
+        background = iib.getImage();
     }
 
     private void initGame() {
-
         dots = 3;
 
         for ( int z = 0; z < dots; z++ ) {
             x[z] = 50 - z * 10;
             y[z] = 50;
         }
-
         locateApple();
-
-
     }
 
     @Override
     public void paintComponent( Graphics g ) {
         super.paintComponent( g );
-
         doDrawing(g);
     }
 
     private void doDrawing( Graphics g ) {
+        String msg = "Player: " + player;
+        Font small = new Font("Helvetica", Font.BOLD, 14);
+
+        g.setColor(Color.white);
+        g.setFont(small);
+        g.drawString(msg, 20, 20);
 
         if (inGame) {
-
-            g.drawImage(apple, apple_x, apple_y, this);
+            g.drawImage( apple, apple_x, apple_y, this);
 
             for (int z = 0; z < dots; z++) {
                 if (z == 0) {
@@ -107,9 +114,7 @@ public class Map extends JPanel implements ActionListener {
                     g.drawImage(ball, x[z], y[z], this);
                 }
             }
-
             Toolkit.getDefaultToolkit().sync();
-
         } else {
 
             gameOver(g);
@@ -117,10 +122,9 @@ public class Map extends JPanel implements ActionListener {
     }
 
     private void gameOver(Graphics g) {
-
-        String msg = "Game Over. Your level: " + (DELAY-100);
-        Font small = new Font("Helvetica", Font.BOLD, 14);
-        FontMetrics metr = getFontMetrics(small);
+        String msg = "Game Over. Your level: " + ( DELAY - 150 );
+        Font small = new Font( "Helvetica", Font.BOLD, 14 );
+        FontMetrics metr = getFontMetrics( small );
 
         g.setColor(Color.white);
         g.setFont(small);
@@ -131,12 +135,10 @@ public class Map extends JPanel implements ActionListener {
         if ((x[0] == apple_x) && (y[0] == apple_y)) {
             dots++;
             locateApple();
-
         }
     }
 
     private void move() {
-
         for (int z = dots; z > 0; z--) {
             x[z] = x[(z - 1)];
             y[z] = y[(z - 1)];
@@ -160,7 +162,6 @@ public class Map extends JPanel implements ActionListener {
     }
 
     private void checkCollision() {
-
         for (int z = dots; z > 0; z--) {
 
             if ((z > 4) && (x[0] == x[z]) && (y[0] == y[z])) {
@@ -191,7 +192,6 @@ public class Map extends JPanel implements ActionListener {
 
 
     private void locateApple() {
-
         int r = (int) (Math.random() * RAND_POS);
         apple_x = ((r * DOT_SIZE));
 
@@ -206,21 +206,16 @@ public class Map extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
         if (inGame) {
-
             checkApple();
             checkCollision();
             move();
-
-
         }
 
         repaint();
     }
 
     private class TAdapter extends KeyAdapter {
-
         @Override
         public void keyPressed(KeyEvent e) {
 
@@ -252,11 +247,13 @@ public class Map extends JPanel implements ActionListener {
         }
 
     }
-
-    public void setUser( User user ) {
-        this.user = user;
-    }
     public int getLVL() {
         return DELAY - 100;
     }
+
+    public void setPlayer( String  player ) {
+        this.player = player;
+    }
 }
+
+
