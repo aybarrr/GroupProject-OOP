@@ -9,10 +9,19 @@ public class User {
     private String nickname;
     private int level;
 
-    public User(String name, String nickname){
+    private String password;
+
+    public User (String name, String username){
         setName(name);
         setNickname(nickname);
     }
+    public User(String name, String nickname, String password){
+        setName(name);
+        setNickname(nickname);
+        setPassword(password);
+    }
+
+
 
 //    getter and setters
 
@@ -23,6 +32,14 @@ public class User {
 
     public String getName() {
         return name;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getNickname() {

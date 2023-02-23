@@ -1,13 +1,10 @@
 package Entities;
 
-import java.sql.Connection;
-import java.sql.Statement;
-
 public class Admin {
-    private String login;
+    private String name;
     private String password;
-    public Admin(String login, String password) {
-            setLogin( login );
+    public Admin(String name, String password) {
+            setName( name );
             setPassword( password );
         }
 
@@ -15,29 +12,21 @@ public class Admin {
         public String getPassword() {
             return password;
         }
+
         public void setPassword( String password ) {
-            this.password = password;
+
+        this.password = password;
         }
         public String getUsername() {
-            return login;
+            return name;
         }
-        public void setLogin( String login ) {
-            this.login = login;
+
+        public void setName( String login ) {
+            this.name = login;
         }
 
         //    Methods
-        public void registerNewAdmin( Connection conn ) {
-            Statement statement;
 
-            try {
-                String query = String.format( "insert into %s( username, password ) values( '%s', '%s' );", "Admins", this.login,this.password );
-                statement = conn.createStatement();
-                statement.executeUpdate( query );
-                System.out.println( "New admin successfully registered!" );
-            } catch ( Exception e ) {
-                System.out.println( e );
-            }
-        }
     }
 
 

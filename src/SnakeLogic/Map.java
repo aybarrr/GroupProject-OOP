@@ -1,8 +1,10 @@
 package SnakeLogic;
 
+
+
 import Controller.UserController;
 import Entities.User;
-import Repositories.IUserRepo;
+import Repositories.Interfaces.IUserRepo;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -253,3 +255,5 @@ public class Map extends JPanel implements ActionListener {
         this.player = player;
     }
 }
+
+

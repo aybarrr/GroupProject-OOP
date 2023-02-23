@@ -21,8 +21,9 @@ public class DBConnection implements IDB {
 
             Statement st = conn.createStatement();
             String sql = """
-                    CREATE TABLE IF NOT EXISTS \"User\" (id SERIAL PRIMARY KEY, name VARCHAR(255) NOT NULL, nickname VARCHAR(255) NOT NULL);
+                    CREATE TABLE IF NOT EXISTS \"User\" (id SERIAL PRIMARY KEY, name VARCHAR(255) NOT NULL, nickname VARCHAR(255) NOT NULL, password VARCHAR(255) NOT NULL);
                     CREATE TABLE IF NOT EXISTS \"Rating\" (id SERIAL PRIMARY KEY, user_id INT NOT NULL, rating INT NOT NULL, FOREIGN KEY (user_id) REFERENCES "User"(id));
+                    CREATE TABLE IF NOT EXISTS \"Admin\" (id SERIAL PRIMARY KEY, name VARCHAR(255) NOT NULL, password VARCHAR(255) NOT NULL) ;
                     """;
             st.execute(sql);
 
