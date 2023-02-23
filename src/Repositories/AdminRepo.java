@@ -1,7 +1,6 @@
 package Repositories;
 
 
-import Entities.Admin;
 import Repositories.Interfaces.IAdminRepo;
 
 import java.sql.Connection;
@@ -10,7 +9,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class AdminRepo implements IAdminRepo {
-    private Connection conn;
+    private final Connection conn;
     public AdminRepo(Connection conn){this.conn = conn;}
 
 
@@ -27,11 +26,7 @@ public class AdminRepo implements IAdminRepo {
         } catch (SQLException throwable) {
             throwable.printStackTrace();
         }
-        if( count > 0 ) {
-            return  true;
-        } else {
-            return false;
-        }
+        return count > 0;
 
     }
 }

@@ -39,18 +39,9 @@ public class UserRepo implements IUserRepo {
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-        } finally {
-            try {
-                conn.close();
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
         }
-        if( count > 0 ) {
-            return  true;
-        } else {
-            return false;
-        }
+
+        return count > 0;
     }
 
     @Override
@@ -63,21 +54,13 @@ public class UserRepo implements IUserRepo {
 
             ResultSet rs = st.executeQuery();
             if (rs.next()) {
-                User user = new User(
+                return new User(
                         rs.getString("name"),
                         rs.getString("nickname"),
                         rs.getString("password"));
-
-                return user;
             }
         } catch (SQLException throwable) {
             throwable.printStackTrace();
-        } finally {
-            try {
-                conn.close();
-            } catch (SQLException throwable) {
-                throwable.printStackTrace();
-            }
         }
         return null;
     }
@@ -101,12 +84,6 @@ public class UserRepo implements IUserRepo {
             return users;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-        } finally {
-            try {
-                conn.close();
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
         }
         return null;
     }
@@ -120,12 +97,6 @@ public class UserRepo implements IUserRepo {
             st.execute();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-        } finally {
-            try {
-                conn.close();
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
         }
     }
 

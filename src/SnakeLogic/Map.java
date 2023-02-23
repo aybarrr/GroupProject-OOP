@@ -1,25 +1,15 @@
 package SnakeLogic;
 
 
-
-import Controller.UserController;
-import Entities.User;
-import Repositories.Interfaces.IUserRepo;
-
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.Toolkit;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import javax.swing.ImageIcon;
-import javax.swing.JPanel;
-import javax.swing.Timer;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 public class Map extends JPanel implements ActionListener {
 
@@ -27,12 +17,11 @@ public class Map extends JPanel implements ActionListener {
     private final int B_HEIGHT = 700;
     private final int DOT_SIZE = 10;
     private final int ALL_DOTS = 2700;
-    private final int RAND_POS = 30;
     private int DELAY = 150;
     private String player;
 
-    private final int x[] = new int[ALL_DOTS];
-    private final int y[] = new int[ALL_DOTS];
+    private final int[] x = new int[ALL_DOTS];
+    private final int[] y = new int[ALL_DOTS];
 
     private int dots;
     private int apple_x;
@@ -48,9 +37,10 @@ public class Map extends JPanel implements ActionListener {
     private Image ball;
     private Image apple;
     private Image head;
-    private Image background;
+    private Connection conn;
 
-    public Map( String player ) {
+    public Map(String player, Connection conn) {
+        setConn( conn );
         setPlayer( player );
         initBoard();
     }
@@ -76,8 +66,6 @@ public class Map extends JPanel implements ActionListener {
         ImageIcon iih = new ImageIcon("src/Images/head.png");
         head = iih.getImage();
 
-        ImageIcon iib = new ImageIcon("src/Images/background.png");
-        background = iib.getImage();
     }
 
     private void initGame() {
@@ -93,10 +81,14 @@ public class Map extends JPanel implements ActionListener {
     @Override
     public void paintComponent( Graphics g ) {
         super.paintComponent( g );
-        doDrawing(g);
+        try {
+            doDrawing(g);
+        } catch (SQLException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    private void doDrawing( Graphics g ) {
+    private void doDrawing( Graphics g ) throws SQLException, ClassNotFoundException {
         String msg = "Player: " + player;
         Font small = new Font("Helvetica", Font.BOLD, 14);
 
@@ -116,7 +108,6 @@ public class Map extends JPanel implements ActionListener {
             }
             Toolkit.getDefaultToolkit().sync();
         } else {
-
             gameOver(g);
         }
     }
@@ -129,6 +120,17 @@ public class Map extends JPanel implements ActionListener {
         g.setColor(Color.white);
         g.setFont(small);
         g.drawString(msg, (B_WIDTH - metr.stringWidth(msg)) / 2, B_HEIGHT / 2);
+    }
+
+    public void setRating() {
+        try {
+            String sql = String.format( "INSERT INTO \"Rating\"(username, rating) VALUES ('%s','%s')", player, DELAY - 150 );
+            Statement st = conn.createStatement();
+            st.execute( sql );
+            System.out.println( "Your score: " + ( DELAY - 150 ) + " is recorded" );
+        } catch (SQLException throwable) {
+            throwable.printStackTrace();
+        }
     }
 
     private void checkApple() {
@@ -166,6 +168,7 @@ public class Map extends JPanel implements ActionListener {
 
             if ((z > 4) && (x[0] == x[z]) && (y[0] == y[z])) {
                 inGame = false;
+                break;
             }
         }
 
@@ -192,16 +195,16 @@ public class Map extends JPanel implements ActionListener {
 
 
     private void locateApple() {
+        int RAND_POS = 30;
         int r = (int) (Math.random() * RAND_POS);
         apple_x = ((r * DOT_SIZE));
 
         r = (int) (Math.random() * RAND_POS);
         apple_y = ((r * DOT_SIZE));
 
-        DELAY = DELAY+1;
+        DELAY = DELAY + 1;
         timer = new Timer( DELAY, this );
         timer.start();
-
     }
 
     @Override
@@ -247,12 +250,13 @@ public class Map extends JPanel implements ActionListener {
         }
 
     }
-    public int getLVL() {
-        return DELAY - 100;
-    }
 
     public void setPlayer( String  player ) {
         this.player = player;
+    }
+
+    public void setConn(Connection conn) {
+        this.conn = conn;
     }
 }
 

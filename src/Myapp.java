@@ -1,24 +1,34 @@
 import Controller.AdminController;
 import Controller.UserController;
-import Database.DBConnection;
+import Entities.User;
+import SnakeLogic.Map;
 
 import javax.swing.*;
 import java.awt.*;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Myapp {
     private static UserController controller = null;
     private static AdminController controllerAdmin = null;
-    private final Scanner scanner;
+
+    private static Map map;
+    private static Connection conn;
 
 
-    public Myapp(UserController controller, AdminController controllerAdmin) {
-        this.controller = controller;
-        this.controllerAdmin = controllerAdmin;
-        scanner = new Scanner(System.in);
+    public Myapp(UserController controller, AdminController controllerAdmin, Map map, Connection conn) {
+        this.conn = conn;
+        this.map = map;
+        Myapp.controller = controller;
+        Myapp.controllerAdmin = controllerAdmin;
     }
 
-    public void start() {
+    public void start() throws SQLException {
         System.out.println("Welcome to online SNAKE GAME!");
 
         do {
@@ -59,9 +69,16 @@ public class Myapp {
 
     private static void StartGameAsGuest(){
         EventQueue.invokeLater(() -> {
-            JFrame ex = new Main( "Guest" );
+            JFrame ex;
+            try {
+                ex = new Main( "Guest" );
+            } catch (SQLException | ClassNotFoundException e) {
+                throw new RuntimeException(e);
+            }
             ex.setVisible(true);
         });
+
+        map.setRating();
     }
 
 
@@ -93,16 +110,39 @@ public class Myapp {
         if (response.equals((signedIn))) {
             System.out.println("Starting as: " + nickname);
             EventQueue.invokeLater(() -> {
-                JFrame ex = new Main(nickname);
+                JFrame ex;
+                try {
+                    ex = new Main(nickname);
+                } catch (SQLException | ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
                 ex.setVisible(true);
             });
+
+            map.setRating();
         } else {
             System.out.println("No such user");
         }
     }
 
-        private static void RatingShow () {
-            System.out.println("Showing Rating...");
+        private static void RatingShow () throws SQLException {
+            try {
+                String sql = "SELECT * FROM \"Rating\" ORDER BY rating DESC";
+                Statement st = conn.createStatement();
+
+                ResultSet rs = st.executeQuery(sql);
+
+                int count = 1;
+                System.out.println( "Top 10 users!" );
+
+                while (rs.next()) {
+                    System.out.println( count + ": " + rs.getString( "username" ) + " with score: " + rs.getString( "rating" ) );
+                    if( count == 10 ) break;
+                    count++;
+                }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
         }
         private static void Settings () {
             Scanner inSet = new Scanner(System.in);

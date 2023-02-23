@@ -1,8 +1,6 @@
 package Controller;
 
-import Entities.Admin;
 import Repositories.Interfaces.IAdminRepo;
-import Repositories.Interfaces.IUserRepo;
 
 public class AdminController {
     private final IAdminRepo repo;

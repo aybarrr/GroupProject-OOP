@@ -1,8 +1,5 @@
 package Entities;
 
-import java.sql.Connection;
-import java.sql.Statement;
-
 public class User {
     private int id;
     private String name;
@@ -60,6 +57,10 @@ public class User {
 
     public void setLevel(int level) {
         this.level = level;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 //    methods
 }
