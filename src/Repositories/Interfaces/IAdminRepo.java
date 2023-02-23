@@ -5,7 +5,7 @@ import Entities.User;
 
 public interface IAdminRepo {
 
-    boolean SignIn(Admin admin);
+    boolean SignIn(String name, String password);
 
-    boolean createAdmin(Admin admin);
+
 }

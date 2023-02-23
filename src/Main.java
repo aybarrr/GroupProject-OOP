@@ -1,5 +1,8 @@
+import Controller.AdminController;
 import Controller.UserController;
 import Database.DBConnection;
+import Repositories.AdminRepo;
+import Repositories.Interfaces.IAdminRepo;
 import Repositories.Interfaces.IUserRepo;
 import Repositories.UserRepo;
 import SnakeLogic.Map;
@@ -31,9 +34,14 @@ public class Main extends JFrame {
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
         DBConnection db = new DBConnection();
         Connection conn = db.getConnection( "oop", "postgres", "Babahan2004" );
+
         IUserRepo repo = new UserRepo( conn );
         UserController controller = new UserController(repo);
-        Myapp app = new Myapp(controller);
+
+        IAdminRepo repoAdmin = new AdminRepo( conn );
+        AdminController controllerAdmin = new AdminController(repoAdmin);
+
+        Myapp app = new Myapp(controller, controllerAdmin);
         app.start();
     }
 }
