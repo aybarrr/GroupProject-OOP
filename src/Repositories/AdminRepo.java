@@ -26,12 +26,6 @@ public class AdminRepo implements IAdminRepo {
             }
         } catch (SQLException throwable) {
             throwable.printStackTrace();
-        } finally {
-            try {
-                conn.close();
-            } catch (SQLException throwable) {
-                throwable.printStackTrace();
-            }
         }
         if( count > 0 ) {
             return  true;

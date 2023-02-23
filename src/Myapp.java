@@ -100,6 +100,27 @@ public class Myapp {
 
         String response = controllerAdmin.SignIn(name, password);
         System.out.println(response);
+        String pos = "Admin was Signed in!";
+        if(response.equals(pos)){
+            System.out.println("Welcome to Settings");
+
+            do {
+
+                System.out.println("[1] --> First Setting");
+                System.out.println("[2] --> Second setting");
+                System.out.println("[3] --> Exit");
+                System.err.println("enter key number: ");
+
+                int n = in.nextInt();
+                switch (n) {
+                    case 1 -> System.out.println("First setting is selected");
+                    case 2 -> System.out.println("Second selected");
+
+                    case 3 -> Exit();
+                    default -> System.out.println("invalid number");
+                }
+            } while (true);
+        }
 
     }
     private static void Exit(){
