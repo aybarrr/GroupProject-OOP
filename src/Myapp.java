@@ -36,7 +36,7 @@ public class Myapp {
             System.out.println("[1] --> Start Game");
             System.out.println("[2] --> Sign Up");
             System.out.println("[3] --> Rating of Players");
-            System.out.println("[4] --> open Admin page");
+//            System.out.println("[4] --> open Admin page");
             System.out.println("[5] --> close app");
             System.err.println("enter key number: ");
 
@@ -79,6 +79,7 @@ public class Myapp {
         });
 
         map.setRating();
+        StartGame();
     }
 
 
@@ -93,6 +94,7 @@ public class Myapp {
 
         String response = controller.createUser(name, nickname, password);
         System.out.println(response);
+        StartGame();
     }
 
     private static void SignIn() {
@@ -123,6 +125,7 @@ public class Myapp {
         } else {
             System.out.println("No such user");
         }
+        StartGame();
     }
 
         private static void RatingShow () throws SQLException {
@@ -143,6 +146,7 @@ public class Myapp {
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
+            StartGame();
         }
         private static void Settings () {
             Scanner inSet = new Scanner(System.in);
